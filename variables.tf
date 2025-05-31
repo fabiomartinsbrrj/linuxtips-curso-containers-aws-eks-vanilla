@@ -28,3 +28,9 @@ variable "ssm_pod_subnets" {
   type        = list(string)
 
 }
+
+variable "k8s_version" {
+  description = "The version of the EKS cluster"
+  type        = string
+  default     = "1.31"
+}
