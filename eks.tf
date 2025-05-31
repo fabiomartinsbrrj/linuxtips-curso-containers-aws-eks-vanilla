@@ -7,13 +7,13 @@ resource "aws_eks_cluster" "main" {
 
     # O controlplane fica em uma VPC privada
     vpc_config {
-        subnet_ids = data.aws_ssm_parameter.vpc_private_subnets[*].value
+        subnet_ids = data.aws_ssm_parameter.private_subnets[*].value
     }
 
     # encriptar os secrets do cluster
     encryption_config {
         provider {
-            key_arn = aws_kms_key.eks_cluster_key.main.arn
+            key_arn = aws_kms_key.main.arn
         }
         resources = ["secrets"]
     }
@@ -34,7 +34,7 @@ resource "aws_eks_cluster" "main" {
         "scheduler"
     ]
 
-    # em produção é recomendado usar CIDRs específicos, mas para fins educativos vamos deixar aberto 
+    # em produção é recomendado usar CIDRs específicos, mas para fins educativos vamos deixar aberto , 
     #public_access_cidrs = []
 
     tags = {
