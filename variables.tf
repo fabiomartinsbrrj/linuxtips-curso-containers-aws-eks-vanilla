@@ -34,3 +34,17 @@ variable "k8s_version" {
   type        = string
   default     = "1.31"
 }
+
+variable "auto_scale_options" {
+  type = object({
+    min     = number
+    max     = number
+    desired = number
+  })
+}
+
+variable "nodes_instance_sizes" {
+  description = "The instance type for the EKS worker nodes"
+  type        = list(string)
+
+}
