@@ -5,6 +5,7 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 ## [1.1.0] - YYYY-MM-DD
 ### Adicionado
 - Customização do SecurityGroup do Cluster
+- Hibilitando do ARC do EKS Zonal Shifter ([referência](https://docs.aws.amazon.com/pt_br/eks/latest/userguide/zone-shift.html))
 
 ### Alterado
 - 

@@ -25,6 +25,12 @@ resource "aws_eks_cluster" "main" {
     bootstrap_cluster_creator_admin_permissions = true
   }
 
+  zonal_shift_config {
+    enabled = true
+    # o zonal shift é uma feature que permite que você mude o cluster de uma zona para outra, 
+    # caso a zona original esteja com problemas
+  }
+
   # isso vai dizer que para todas as operações feitas dentro do controlplane ele vai logar dentro do CloudWatch
   enabled_cluster_log_types = [
     "api",
