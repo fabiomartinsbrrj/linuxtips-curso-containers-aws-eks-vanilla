@@ -4,7 +4,7 @@ resource "aws_kms_key" "main" {
   tags = {
     Name = "${var.project_name}-eks-kms-key"
   }
-  
+
 }
 
 resource "aws_kms_alias" "main" {
