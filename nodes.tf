@@ -31,7 +31,7 @@ resource "aws_eks_node_group" "main" {
 
   depends_on = [
     # kubernetes_config_map.aws-auth
-    aws_eks_access_entry.nodes
+    aws_eks_access_entry.access_entry_nodes
   ]
   # para garantir que o node group só será criado após o cluster e o aws-auth serem criados
 
