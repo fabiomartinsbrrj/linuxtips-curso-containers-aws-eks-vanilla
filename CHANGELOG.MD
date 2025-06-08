@@ -6,6 +6,7 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 ### Adicionado
 - Customização do SecurityGroup do Cluster
 - Hibilitando do ARC do EKS Zonal Shifter ([referência](https://docs.aws.amazon.com/pt_br/eks/latest/userguide/zone-shift.html))
+- Kubernetes Terraform Provider e autenticação com aws-auth 
 
 ### Alterado
 - 
