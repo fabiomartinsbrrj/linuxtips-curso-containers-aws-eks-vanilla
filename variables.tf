@@ -48,3 +48,21 @@ variable "nodes_instance_sizes" {
   type        = list(string)
 
 }
+
+variable "addon_cni_version" {
+  description = "The version of the CNI add-on"
+  type        = string
+  default     = "v1.18.3-eksbuild.2"
+}
+
+variable "addon_coredns_version" {
+  description = "The version of the CoreDNS add-on"
+  type        = string
+  default     = "v1.11.3-eksbuild.1"
+}
+
+variable "addon_kube_proxy_version" {
+  description = "The version of the Kube-Proxy add-on"
+  type        = string
+  default     = "v1.31.2-eksbuild.3"
+}

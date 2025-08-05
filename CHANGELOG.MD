@@ -8,6 +8,10 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 
 ### Alterado
 - Modo de autenticação para AWS Access Entry
+- Adicionando os Add-ons
+    - CNI https://docs.aws.amazon.com/pt_br/eks/latest/best-practices/vpc-cni.html
+    - CORE-DNS http://docs.aws.amazon.com/eks/latest/userguide/managing-coredns.html?icmpid=docs_eks_help_panel_hp_add_ons_coredns
+    - Kube-Proxy https://docs.aws.amazon.com/eks/latest/userguide/managing-kube-proxy.html?icmpid=docs_eks_help_panel_hp_add_ons_kube_proxy
 
 ### Corrigido
 - 

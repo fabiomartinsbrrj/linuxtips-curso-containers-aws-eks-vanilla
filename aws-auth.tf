@@ -1,4 +1,5 @@
-# resource "kubernetes_config_map" "aws-auth" {
+# Use the access_entry to authorize user and other type of resources
+#resource "kubernetes_config_map" "aws-auth" {
 #   metadata {
 #     name      = "aws-auth"
 #     namespace = "kube-system"
