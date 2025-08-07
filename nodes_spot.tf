@@ -1,7 +1,7 @@
-resource "aws_eks_node_group" "main" {
+resource "aws_eks_node_group" "spot" {
   cluster_name = aws_eks_cluster.main.id
 
-  node_group_name = aws_eks_cluster.main.id
+  node_group_name = format("%s-spot", aws_eks_cluster.main.id)
 
   node_role_arn = aws_iam_role.eks_nodes_role.arn
 
@@ -21,13 +21,13 @@ resource "aws_eks_node_group" "main" {
     ]
   }
 
-  capacity_type = "ON_DEMAND" # default vai ser ON_DEMAND
+  capacity_type = "SPOT"
 
   # ajuda a fazer especificações via node selector. Ex: So suba em nodes que tenham arch X86_64
   labels = {
     "capacity/os"   = "AMAZON_LINUX"
     "capacity/arch" = "X86_64"
-    "capacity/type" = "ON_DEMAND"
+    "capacity/type" = "SPOT"
   }
 
   tags = {
