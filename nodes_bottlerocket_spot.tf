@@ -1,7 +1,7 @@
-resource "aws_eks_node_group" "main" {
+resource "aws_eks_node_group" "bottlerocket_spot" {
   cluster_name = aws_eks_cluster.main.id
 
-  node_group_name = format("%s-bottlerocket", aws_eks_cluster.main.id)
+  node_group_name = format("%s-bottlerocket-spot", aws_eks_cluster.main.id)
 
   node_role_arn = aws_iam_role.eks_nodes_role.arn
 
