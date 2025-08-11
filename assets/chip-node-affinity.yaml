@@ -24,7 +24,25 @@ spec:
     spec:
       nodeSelector:
         capacity/arch: X86_64
-        capacity/type: ON_DEMAND
+
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            preference:
+              matchExpressions:
+              - key: capacity/type
+                operator: In
+                values:
+                - SPOT
+          - weight: 50 
+            preference:
+              matchExpressions:
+              - key: capacity/type
+                operator: In
+                values:
+                - ON_DEMAND
+
       containers:
       - name: chip
         image: fidelissauro/chip:v1
@@ -62,5 +80,5 @@ spec:
         - name: CHAOS_MONKEY_APP_KILLER
           value: "true"   
         - name: CHAOS_MONKEY_MEMORY
-          value: "true"                                        
+          value: "false"                                        
       terminationGracePeriodSeconds: 60
