@@ -10,25 +10,25 @@ resource "aws_launch_template" "custom" {
     }
   }
 
-  
-    ebs_optimized = true
 
-    monitoring {
-      enabled = true
+  ebs_optimized = true
+
+  monitoring {
+    enabled = true
+  }
+
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name = "${var.project_name}-custom-instance"
     }
+  }
 
-    tag_specifications {
-        resource_type = "instance"
-        tags = {
-            Name = "${var.project_name}-custom-instance"
-        }
-    }
-
-    user_data = base64encode(templatefile("${path.module}/files/user-data/user-data.tpl", {
-        CLUSTER_NAME = aws_eks_cluster.main.id
-        KUBERNETES_ENDPOINT = aws_eks_cluster.main.endpoint
-        KUBERNETES_CERTIFICATE_AUTHORITY = aws_eks_cluster.main.certificate_authority.0.data
-    }))
+  user_data = base64encode(templatefile("${path.module}/files/user-data/user-data.tpl", {
+    CLUSTER_NAME                     = aws_eks_cluster.main.id
+    KUBERNETES_ENDPOINT              = aws_eks_cluster.main.endpoint
+    KUBERNETES_CERTIFICATE_AUTHORITY = aws_eks_cluster.main.certificate_authority.0.data
+  }))
 }
 
 resource "aws_eks_node_group" "nodes_custom" {

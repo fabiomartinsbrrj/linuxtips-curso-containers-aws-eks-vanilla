@@ -47,3 +47,11 @@ resource "aws_eks_node_group" "main" {
   }
 
 }
+
+data "aws_autoscaling_groups" "eks" {
+  filter {
+    name   = "tag:eks:nodegroup-name"
+    values = [aws_eks_node_group.main.node_group_name]
+  }
+}
+
