@@ -1,11 +1,14 @@
-resource "aws_eks_node_group" "main" {
+resource "aws_eks_node_group" "graviton" {
   cluster_name = aws_eks_cluster.main.id
 
-  node_group_name = aws_eks_cluster.main.id
+  node_group_name = format("%s-graviton", aws_eks_cluster.main.id)
 
   node_role_arn = aws_iam_role.eks_nodes_role.arn
 
-  instance_types = var.nodes_instance_sizes
+  instance_types = [
+    "t4g.large",
+    "c7g.large",
+  ]
 
   subnet_ids = data.aws_ssm_parameter.pod_subnets[*].value
 
@@ -23,10 +26,12 @@ resource "aws_eks_node_group" "main" {
 
   capacity_type = "ON_DEMAND" # default vai ser ON_DEMAND
 
+  ami_type = "AL2023_ARM_64_STANDARD" # Graviton specific AMI
+
   # ajuda a fazer especificações via node selector. Ex: So suba em nodes que tenham arch X86_64
   labels = {
     "capacity/os"   = "AMAZON_LINUX"
-    "capacity/arch" = "X86_64"
+    "capacity/arch" = "ARM64"
     "capacity/type" = "ON_DEMAND"
   }
 
@@ -47,11 +52,3 @@ resource "aws_eks_node_group" "main" {
   }
 
 }
-
-data "aws_autoscaling_groups" "eks" {
-  filter {
-    name   = "tag:eks:nodegroup-name"
-    values = [aws_eks_node_group.main.node_group_name]
-  }
-}
-

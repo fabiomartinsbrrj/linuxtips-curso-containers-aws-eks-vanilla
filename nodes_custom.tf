@@ -1,13 +1,51 @@
-resource "aws_eks_node_group" "main" {
+resource "aws_launch_template" "custom" {
+  name = var.project_name
+
+  block_device_mappings {
+    device_name = "/dev/xvda"
+
+    ebs {
+      volume_size = 50
+      volume_type = "gp3"
+    }
+  }
+
+
+  ebs_optimized = true
+
+  monitoring {
+    enabled = true
+  }
+
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name = "${var.project_name}-custom-instance"
+    }
+  }
+
+  user_data = base64encode(templatefile("${path.module}/files/user-data/user-data.tpl", {
+    CLUSTER_NAME                     = aws_eks_cluster.main.id
+    KUBERNETES_ENDPOINT              = aws_eks_cluster.main.endpoint
+    KUBERNETES_CERTIFICATE_AUTHORITY = aws_eks_cluster.main.certificate_authority.0.data
+  }))
+}
+
+resource "aws_eks_node_group" "nodes_custom" {
   cluster_name = aws_eks_cluster.main.id
 
-  node_group_name = aws_eks_cluster.main.id
+  node_group_name = format("%s-custom", aws_eks_cluster.main.id)
 
   node_role_arn = aws_iam_role.eks_nodes_role.arn
 
   instance_types = var.nodes_instance_sizes
 
   subnet_ids = data.aws_ssm_parameter.pod_subnets[*].value
+
+  launch_template {
+    id      = aws_launch_template.custom.id
+    version = aws_launch_template.custom.latest_version
+  }
 
   scaling_config {
     desired_size = lookup(var.auto_scale_options, "desired")
@@ -47,11 +85,3 @@ resource "aws_eks_node_group" "main" {
   }
 
 }
-
-data "aws_autoscaling_groups" "eks" {
-  filter {
-    name   = "tag:eks:nodegroup-name"
-    values = [aws_eks_node_group.main.node_group_name]
-  }
-}
-
